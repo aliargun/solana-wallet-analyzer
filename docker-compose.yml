@@ -1,0 +1,23 @@
+version: '3.8'
+
+services:
+  analyzer:
+    build: .
+    environment:
+      - SOLANA_RPC_URL=${SOLANA_RPC_URL}
+      - REDIS_URL=redis://redis:6379
+      - LOG_LEVEL=info
+    depends_on:
+      - redis
+    volumes:
+      - ./.env:/app/.env
+
+  redis:
+    image: redis:6.2-alpine
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis_data:/data
+
+volumes:
+  redis_data:
